@@ -1,0 +1,422 @@
+{
+  "Uuid": "a0950983-1f5c-412f-908e-461b869dbf91",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "Script",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "import clr\r\nclr.AddReference('RevitServices')\r\nfrom RevitServices.Persistence import DocumentManager\r\n\r\nclr.AddReference('RevitAPI')\r\nfrom Autodesk.Revit.DB import FilteredElementCollector, BuiltInCategory\r\n\r\n# Access current document\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n# Collect all elements of a specific category (e.g., Walls)\r\nelements = FilteredElementCollector(doc) \\\r\n    .OfCategory(BuiltInCategory.OST_Walls) \\\r\n    .WhereElementIsNotElementType() \\\r\n    .ToElements()\r\n\r\n# Extract data: Id, Name, Category Name\r\nelement_data = []\r\nfor e in elements:\r\n    try:\r\n        data = [e.Id.IntegerValue, e.Name, e.Category.Name]\r\n        element_data.append(data)\r\n    except:\r\n        element_data.append([\"N/A\", \"N/A\", \"N/A\"])\r\n\r\nOUT = element_data\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "fb410de9bd71423f8080014d47f611d2",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "9083f95ac9884345abe913114383b0ea",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fc7f3a96171747388111e264f8e65029",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "WatchWidth": 200.0,
+      "WatchHeight": 200.0,
+      "Id": "0b2485a408a84d2cb5968e3df7e6e918",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "7f1e915db0204a3d98e4c1308052f592",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "28da664a0c424b3686aa5be76ff54697",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualizes a node's output"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "Id": "da355af1f064496bb256c2c6ef87776d",
+      "NodeType": "FunctionNode",
+      "Inputs": [
+        {
+          "Id": "c3f38af4ebdc4c2d87740f8cdfceb701",
+          "Name": "lists",
+          "Description": "List of lists to be transposed\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3fedc150792f440a9e8033a3a5b3a491",
+          "Name": "lists",
+          "Description": "List of transposed lists",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "FunctionSignature": "DSCore.List.Transpose@var[]..[]",
+      "Replication": "Auto",
+      "Description": "Swaps rows and columns in a list of lists. If there are some rows that are shorter than others, null values are inserted as place holders in the resultant array such that it is always rectangular.\n\nList.Transpose (lists: var[]..[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "Id": "3861c303859d4be285e5914bf244925d",
+      "NodeType": "ExtensionNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "878a71253eeb4c35b2e11867c78f3e3d",
+          "Name": "",
+          "Description": "File Path",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system and returns its file path",
+      "HintPath": "C:\\Users\\USER\\OneDrive\\Documents\\Mine\\Learning\\Revit API\\Trial\\walls",
+      "InputValue": "C:\\Users\\USER\\OneDrive\\Documents\\Mine\\Learning\\Revit API\\Trial\\walls"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "Id": "4c6a5aeedaed43dd81cbc5fe4cd37feb",
+      "NodeType": "StringInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "9dc904709e3d44b58ffffac856f57fcc",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string",
+      "InputValue": "Walls"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "Id": "0a0916e79a954fe2829ea68042dc1185",
+      "NodeType": "FunctionNode",
+      "Inputs": [
+        {
+          "Id": "24afb0d33ab148738d3e765f1bcba37c",
+          "Name": "filePath",
+          "Description": "string",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e483a773cd264288b89b19c83b57ebf4",
+          "Name": "sheetName",
+          "Description": "string",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d2ab55f08421472fa5f7f1ea8cc916a8",
+          "Name": "startRow",
+          "Description": "int",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e4d1ec817c214c0981bf0803e0e91c60",
+          "Name": "startColumn",
+          "Description": "int",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8c5a950d1ccf4be1ae7c5f5d9e1d6feb",
+          "Name": "data",
+          "Description": "var[][]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e21a012070724267a224a3ab187eead5",
+          "Name": "overWrite",
+          "Description": "bool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1f353a6d63ae428f8c140005efd09fba",
+          "Name": "writeAsString",
+          "Description": "bool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a0d3509404304cbabaa02b6359892d5c",
+          "Name": "var[][]",
+          "Description": "var[][]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "FunctionSignature": "DSOffice.Data.ExportToExcel@string,string,int,int,var[][],bool,bool",
+      "Replication": "Auto",
+      "Description": "Data.ExportToExcel (filePath: string, sheetName: string, startRow: int, startColumn: int, data: var[][], overWrite: bool = false, writeAsString: bool = false): var[][]"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NumberType": "Double",
+      "Id": "af85e23cb8294e658c6a21f292cab6c9",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6624cb92eb5949d4b6284f226b0a934f",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number",
+      "InputValue": 0.0
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "fc7f3a96171747388111e264f8e65029",
+      "End": "7f1e915db0204a3d98e4c1308052f592",
+      "Id": "c11ffda2c4cc42dd9f7da2c8a6c10cc0",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "28da664a0c424b3686aa5be76ff54697",
+      "End": "c3f38af4ebdc4c2d87740f8cdfceb701",
+      "Id": "768a9eced071453aad00a09a235a0bc2",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "3fedc150792f440a9e8033a3a5b3a491",
+      "End": "8c5a950d1ccf4be1ae7c5f5d9e1d6feb",
+      "Id": "40ef2adf77c04331b8b06b2b6cc31fe2",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "878a71253eeb4c35b2e11867c78f3e3d",
+      "End": "24afb0d33ab148738d3e765f1bcba37c",
+      "Id": "42ce9e035ac24618873284868702a573",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "9dc904709e3d44b58ffffac856f57fcc",
+      "End": "e483a773cd264288b89b19c83b57ebf4",
+      "Id": "6e33845d80b94b0fb13cdd3090312cf0",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "6624cb92eb5949d4b6284f226b0a934f",
+      "End": "d2ab55f08421472fa5f7f1ea8cc916a8",
+      "Id": "3bcb34c5cf774905a01a89b30c645ba3",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "6624cb92eb5949d4b6284f226b0a934f",
+      "End": "e4d1ec817c214c0981bf0803e0e91c60",
+      "Id": "c510b9aa9ded44a293b1bc0b97227fe7",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "EnableLegacyPolyCurveBehavior": true,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Properties",
+      "Version": "3.0",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "7.1",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "3.0.3.7597",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "fb410de9bd71423f8080014d47f611d2",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 614.1750138831003,
+        "Y": 631.3132212677353
+      },
+      {
+        "Id": "0b2485a408a84d2cb5968e3df7e6e918",
+        "Name": "Watch",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 888.5750138831003,
+        "Y": 633.0076102935141
+      },
+      {
+        "Id": "da355af1f064496bb256c2c6ef87776d",
+        "Name": "List.Transpose",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1266.9750138831002,
+        "Y": 633.0076102935141
+      },
+      {
+        "Id": "3861c303859d4be285e5914bf244925d",
+        "Name": "File Path",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1266.9750138831002,
+        "Y": 181.00761029351406
+      },
+      {
+        "Id": "4c6a5aeedaed43dd81cbc5fe4cd37feb",
+        "Name": "String",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1266.9750138831002,
+        "Y": 339.00761029351406
+      },
+      {
+        "Id": "0a0916e79a954fe2829ea68042dc1185",
+        "Name": "Data.ExportToExcel",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1605.3750138831,
+        "Y": 346.00761029351406
+      },
+      {
+        "Id": "af85e23cb8294e658c6a21f292cab6c9",
+        "Name": "Number",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1266.9750138831002,
+        "Y": 486.00761029351406
+      }
+    ],
+    "Annotations": [],
+    "X": -262.991512194941,
+    "Y": -214.31783162658297,
+    "Zoom": 0.5157358571306839
+  }
+}
