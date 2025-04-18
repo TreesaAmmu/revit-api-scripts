@@ -1,0 +1,1 @@
+Use FilteredElementCollector with OfClass() and OfCategory() to collect walls, doors, windows
