@@ -1,0 +1,21 @@
+import clr
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import *
+
+doc = DocumentManager.Instance.CurrentDBDocument
+
+# Collect Walls
+wall_collector = FilteredElementCollector(doc).OfClass(Wall).OfCategory(BuiltInCategory.OST_Walls).ToElements()
+
+# Collect Doors
+door_collector = FilteredElementCollector(doc).OfClass(FamilyInstance).OfCategory(BuiltInCategory.OST_Doors).ToElements()
+
+# Collect Windows
+window_collector = FilteredElementCollector(doc).OfClass(FamilyInstance).OfCategory(BuiltInCategory.OST_Windows).ToElements()
+
+# Output (for Dynamo, send out the elements)
+OUT = (wall_collector, door_collector, window_collector)
