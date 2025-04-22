@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Name>SetReviewedForWalls</Name>
+    <Assembly>"C:\Users\USER\Documents\RevitAddins\Writing Parameters\bin\Debug\Writing Parameters.dll"</Assembly>
+    <AddInId>11f08f1d-7ff2-4fa1-b3f7-2217b27c0cb4</AddInId>
+    <FullClassName>SetReviewedForWalls</FullClassName>
+    <VendorId>RWID</VendorId>
+    <VendorDescription>Set 'Reviewed' Parameter for all Walls</VendorDescription>
+  </AddIn>
+</RevitAddIns>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Name>RevitWallReader</Name>
+    <Assembly>C:\Users\USER\Documents\RevitAddins\RevitWallReader\bin\Debug\RevitWallReader.dll</Assembly>
+    <AddInId>1B7B7F6A-A72D-4E3A-B053-0E3C16F96A70</AddInId>
+    <FullClassName>RevitWallReader.ExportWallDataToExcel</FullClassName>
+    <VendorId>RWID</VendorId>
+    <VendorDescription>Read Wall Parameters</VendorDescription>
+  </AddIn>
+</RevitAddIns>
