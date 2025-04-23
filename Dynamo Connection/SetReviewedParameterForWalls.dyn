@@ -1,0 +1,251 @@
+{
+  "Uuid": "22c1666c-3fbe-4ae4-a0be-fecb1e2e2993",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "etReviewedParameterForWalls",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "import clr\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk.Revit.DB as DB\r\n\r\n# Get the current document\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n# Get the input walls and unwrap them\r\nelements = UnwrapElement(IN[0])\r\n\r\n# Begin transaction to modify the document\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\nfor wall in elements:\r\n    param = wall.LookupParameter(\"Reviewed\")\r\n    if param and not param.IsReadOnly:\r\n        param.Set(\"Yes\")\r\n\r\nTransactionManager.Instance.TransactionTaskDone()\r\n\r\nOUT = \"Updated walls: {}\".format(len(elements))\r\n\r\n",
+      "Engine": "IronPython2",
+      "VariableInputPorts": true,
+      "Id": "df93f585577b4ef58069557caa81e5c7",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "9a0dbe55c88146ef975f37f0c84863f9",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "abc7640d2d4a4545bfa94c3899b9cf37",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "Id": "aab4b2ec9d25425da0c95713bdf87747",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "e02d9b5b8ddf459e980f6cdee859e814",
+          "Name": "Category",
+          "Description": "The Category",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3357753efa844d229f217da185c9d1a3",
+          "Name": "Elements",
+          "Description": "An element class.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Get all elements of the specified category from the model."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 736,
+      "SelectedString": "OST_Walls",
+      "Id": "25372f89d19b486088b05c94743ed231",
+      "NodeType": "ExtensionNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "91bef0a692694d7cace6b57c18b1bef1",
+          "Name": "Category",
+          "Description": "The selected Category.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All built-in categories."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "WatchWidth": 147.2,
+      "WatchHeight": 38.4,
+      "Id": "81774270a9c5494eb2219a0c8cb38cb5",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "263cbffae9c9499eab5a4ff912f02b5b",
+          "Name": "",
+          "Description": "Node to show output from",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "19c89af2aa1141b2ae95d3649af3f0b3",
+          "Name": "",
+          "Description": "Node output",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualizes a node's output"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "abc7640d2d4a4545bfa94c3899b9cf37",
+      "End": "263cbffae9c9499eab5a4ff912f02b5b",
+      "Id": "99462ff1624540fda2c51380d783db13",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "3357753efa844d229f217da185c9d1a3",
+      "End": "9a0dbe55c88146ef975f37f0c84863f9",
+      "Id": "da1cc13f1d7548f4ae3fff16dfa4338c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "91bef0a692694d7cace6b57c18b1bef1",
+      "End": "e02d9b5b8ddf459e980f6cdee859e814",
+      "Id": "5489d94671a24bd0984cfb053e4901c9",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "DynamoIronPython2.7",
+      "Version": "3.2.1",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "df93f585577b4ef58069557caa81e5c7"
+      ]
+    }
+  ],
+  "EnableLegacyPolyCurveBehavior": null,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Properties",
+      "Version": "3.4",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "9.0",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "3.4.1.7055",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "df93f585577b4ef58069557caa81e5c7",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 447.7096045449317,
+        "Y": 241.0708149557612
+      },
+      {
+        "Id": "aab4b2ec9d25425da0c95713bdf87747",
+        "Name": "All Elements of Category",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 90.90960454493177,
+        "Y": 241.07081495576122
+      },
+      {
+        "Id": "25372f89d19b486088b05c94743ed231",
+        "Name": "Categories",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": -245.09039545506823,
+        "Y": 241.07081495576122
+      },
+      {
+        "Id": "81774270a9c5494eb2219a0c8cb38cb5",
+        "Name": "Watch",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 722.1096045449317,
+        "Y": 241.0708149557612
+      }
+    ],
+    "Annotations": [],
+    "X": 288.92926438790124,
+    "Y": 114.67434465016186,
+    "Zoom": 0.5951695702211338
+  }
+}
