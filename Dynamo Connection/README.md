@@ -31,7 +31,7 @@ This script is useful for quickly marking walls as reviewed in a project, which 
 
 Here’s a preview of how the Dynamo script looks in action:
 
-![Screenshot of Output](Dynamo Connection/Screenshot 2025-04-23 122601.png)
+![image alt](https://github.com/TreesaAmmu/revit-api-scripts/blob/main/Dynamo%20Connection/Screenshot%202025-04-23%20122601.png?raw=true)
 
 ## Script Breakdown
 
