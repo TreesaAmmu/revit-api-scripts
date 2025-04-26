@@ -26,7 +26,6 @@ A simple Revit add-in that collects all **Wall** elements from an active Revit m
 3. Place the `.addin` file in one of Revit’s Addins folders:
    - `%AppData%\Autodesk\Revit\Addins\2026\`
    - Or your corresponding Revit version folder.
-4. Make sure to give the <Assembly> as the path where you saved the file
 
 Example `.addin` file:
 
@@ -42,4 +41,47 @@ Example `.addin` file:
     <VendorDescription>Your Company Name</VendorDescription>
   </AddIn>
 </RevitAddIns>
+```
 
+## Usage
+
+1. Open a Revit project containing walls.
+2. Run the command from the `Add-Ins` tab.
+3. After execution:
+   - A new Excel workbook opens.
+   - Wall data will be saved to:
+
+     ```
+     C:\Users\USER\Documents\WallData.xlsx
+     ```
+
+4. A confirmation dialog will appear once done.
+
+## Code Overview
+
+- **Collect Walls**: Uses `FilteredElementCollector` to get all Wall elements.
+- **Extract Parameters**:
+  - `Wall.Width`
+  - `WALL_USER_HEIGHT_PARAM`
+- **Excel Interop**:
+  - Creates a new workbook.
+  - Writes data row by row.
+  - Saves the workbook to disk.
+  - Optionally keeps Excel open for user review.
+
+## Notes
+
+- You can change the **save path** in the `savePath` variable inside the code.
+- This example uses **COM Interop** for Excel. Remember to **release COM objects** in a production environment to avoid memory leaks.
+- If a wall’s height parameter is missing, it displays as "Missing" in the Excel file.
+
+## To-Do (for future improvements)
+
+- Let the user choose the save location via a Save File Dialog.
+- Add more wall parameters (e.g., Type Name, Volume).
+- Export data without opening Excel (using `ClosedXML` or `EPPlus` instead of Interop).
+- Improve error handling.
+
+## License
+
+This project is free to use for educational and personal purposes.
