@@ -15,7 +15,7 @@ This repo is organized into modular folders, each containing scripts that solve 
 
 ## 🔧 Tech Stack
 
-- Autodesk Revit 2026
+- Autodesk Revit
 - Python (IronPython 2.7 for Revit / CPython for pyRevit)
 - Dynamo for Revit
 - pyRevit
